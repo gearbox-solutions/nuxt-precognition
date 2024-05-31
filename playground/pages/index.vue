@@ -1,27 +1,33 @@
 <script setup lang="ts">
-import TextInput from '~/components/TextInput.vue'
-import ButtonPrimary from '~/components/ButtonPrimary.vue'
-
 console.log(useForm)
 const form = useForm({
-  item: '',
+  description: '',
 })
+
+const submitForm = async () => {
+  form.post('/api/todo')
+}
 </script>
 
 <template>
   <div>
-    <form class="space-y-4">
+    <pre>{{ form }}</pre>
+    <form
+      class="space-y-4"
+      @submit.prevent="submitForm"
+    >
       <div class="space-x-4">
-        <label for="username">Item</label>
-        <TextInput
-          v-model="form.item"
+        <LabeledInput
+          id="description"
+          v-model="form.description"
+          label="Description"
           type="text"
-          name="username"
+          name="description"
         />
       </div>
 
       <div>
-        <ButtonPrimary>
+        <ButtonPrimary :disabled="form.processing">
           Submit
         </buttonprimary>
       </div>

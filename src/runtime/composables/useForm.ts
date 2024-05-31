@@ -44,11 +44,10 @@ export default function useForm<TForm extends FormDataType>(
   rememberKeyOrData: string | TForm | (() => TForm),
   maybeData?: TForm | (() => TForm),
 ): InertiaForm<TForm> {
-  console.log('rememberKeyOrData', rememberKeyOrData)
   const rememberKey = typeof rememberKeyOrData === 'string' ? rememberKeyOrData : null
   const data = typeof rememberKeyOrData === 'string' ? maybeData : rememberKeyOrData
   const restored = rememberKey
-    ? (router.restore(rememberKey) as { data: TForm, errors: Record<keyof TForm, string> })
+    ? (restore(rememberKey) as { data: TForm, errors: Record<keyof TForm, string> })
     : null
   let defaults = typeof data === 'object' ? cloneDeep(data) : cloneDeep(data())
   let cancelToken = null
@@ -131,7 +130,7 @@ export default function useForm<TForm extends FormDataType>(
 
       return this
     },
-    submit(method, url, options: VisitOptions = {}) {
+    async submit(method, url, options: VisitOptions = {}) {
       const data = transform(this.data())
       const _options = {
         ...options,
@@ -210,7 +209,16 @@ export default function useForm<TForm extends FormDataType>(
         router.delete(url, { ..._options, data })
       }
       else {
-        router[method](url, data, _options)
+        const response = await $fetch(url, {
+          method: method,
+          body: data,
+          onRequest: () => {
+            _options.onStart()
+          },
+          onResponse: () => {
+            _options.onFinish()
+          },
+        })
       }
     },
     get(url, options) {
@@ -255,4 +263,12 @@ export default function useForm<TForm extends FormDataType>(
   )
 
   return form
+}
+
+function restore(key = 'default'): unknown {
+  if (import.meta.server) {
+    return
+  }
+
+  return window.history.state?.rememberedState?.[key]
 }
