@@ -29,7 +29,10 @@
     "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
-    "@nuxt/kit": "^3.11.2"
+    "@nuxt/kit": "^3.11.2",
+    "axios": "^1.7.2",
+    "lodash.clonedeep": "^4.5.0",
+    "lodash.isequal": "^4.5.0"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.2.0",
