@@ -1,6 +1,6 @@
 <script setup>
 useHead({
-  title: 'Auth Tester',
+  title: 'useForm Tester',
   bodyAttrs: {
     class: 'bg-gray-800 text-gray-200',
   },

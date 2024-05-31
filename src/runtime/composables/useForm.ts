@@ -142,6 +142,7 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onBefore: (visit) => {
+          console.log('onBefore', visit)
           this.wasSuccessful = false
           this.recentlySuccessful = false
           clearTimeout(recentlySuccessfulTimeoutId)
@@ -151,6 +152,7 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onStart: (visit) => {
+          console.log('onStart', visit)
           this.processing = true
 
           if (options.onStart) {
@@ -165,6 +167,7 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onSuccess: async (page) => {
+          console.log('onSuccess', page)
           this.processing = false
           this.progress = null
           this.clearErrors()
@@ -178,6 +181,7 @@ export default function useForm<TForm extends FormDataType>(
           return onSuccess
         },
         onError: (errors) => {
+          console.log('onError', errors)
           this.processing = false
           this.progress = null
           this.clearErrors().setError(errors)
@@ -195,6 +199,7 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onFinish: (visit) => {
+          console.log('onFinish')
           this.processing = false
           this.progress = null
           cancelToken = null
@@ -205,21 +210,34 @@ export default function useForm<TForm extends FormDataType>(
         },
       }
 
-      if (method === 'delete') {
-        router.delete(url, { ..._options, data })
-      }
-      else {
-        const response = await $fetch(url, {
-          method: method,
-          body: data,
-          onRequest: () => {
-            _options.onStart()
-          },
-          onResponse: () => {
-            _options.onFinish()
-          },
-        })
-      }
+      // run before hook
+      await _options.onBefore()
+
+      const response = await $fetch(url, {
+        method: method,
+        body: data,
+        onRequest: async ({ request, options }) => {
+          console.log('oFetch onRequest', request, options)
+
+          await _options.onStart()
+        },
+        onResponse: async ({ request, options, response }) => {
+          console.log('onResponse', request, options, response)
+          // onResponse is always called, even if there was an errors
+          // return early so we don't execute both this and onResponseError
+          if (!response.ok) {
+            return
+          }
+          await _options.onSuccess(response)
+          await _options.onFinish()
+        },
+        onResponseError: async (error) => {
+          console.log('onResponseError', error)
+          await _options.onError(error)
+          await _options.onFinish()
+        },
+
+      })
     },
     get(url, options) {
       this.submit('get', url, options)
