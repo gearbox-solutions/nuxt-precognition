@@ -5,7 +5,7 @@ const todoRequestSchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  const validated = await validatedInput(event, todoRequestSchema)
+  const validated = await getValidatedInput(event, todoRequestSchema)
 
   // do something with the body
   const newTodo = {

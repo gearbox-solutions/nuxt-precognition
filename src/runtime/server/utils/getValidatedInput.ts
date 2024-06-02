@@ -1,5 +1,8 @@
-export default async function (event, schema) {
-  const body = await readValidatedBody(event, body => schema.safeParse(body))
+import type { H3Event } from 'h3'
+import type { ZodObject } from 'zod'
+
+export default async function (event: H3Event, validationSchema: ZodObject<never>) {
+  const body = await readValidatedBody(event, body => validationSchema.safeParse(body))
   if (body.success) {
     return body.data
   }
