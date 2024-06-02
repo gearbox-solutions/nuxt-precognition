@@ -234,7 +234,7 @@ export default function useForm<TForm extends FormDataType>(
         },
         async onResponseError({ response }) {
           console.log('onResponseError')
-          const errors = response._data.data.errors
+          const errors = response._data.data?.errors
           await _options.onError(errors)
           await _options.onFinish()
         },
