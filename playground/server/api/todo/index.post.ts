@@ -5,37 +5,19 @@ const todoRequestSchema = z.object({
 })
 
 export default defineEventHandler(async (event) => {
-  await sleep(1000)
-
-  const body = await getValidatedBody(event, todoRequestSchema)
+  const validated = await validatedInput(event, todoRequestSchema)
 
   // do something with the body
   const newTodo = {
     id: 1,
-    description: body.description,
+    description: validated.description,
   }
+
+  // simulate a slow response to show the loading state o the front-end
+  await sleep(1000)
 
   return newTodo
 })
-
-async function getValidatedBody(event, schema) {
-  const body = await readValidatedBody(event, body => schema.safeParse(body))
-  if (!body.success) {
-    throwValidationError(body.error.flatten().fieldErrors)
-  }
-
-  return body.data
-}
-
-function throwValidationError(errors: Record<string, string>) {
-  throw createError(
-    {
-      statusCode: 422,
-      message: 'Validation Error',
-      data: { errors },
-    },
-  )
-}
 
 function sleep(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms))
