@@ -23,6 +23,7 @@ const submitForm = async () => {
           label="Description"
           type="text"
           name="description"
+          :errors="form.errors.description"
         />
       </div>
 

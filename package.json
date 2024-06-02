@@ -32,7 +32,8 @@
     "@nuxt/kit": "^3.11.2",
     "axios": "^1.7.2",
     "lodash.clonedeep": "^4.5.0",
-    "lodash.isequal": "^4.5.0"
+    "lodash.isequal": "^4.5.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.2.0",

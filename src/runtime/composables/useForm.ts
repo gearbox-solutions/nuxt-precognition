@@ -184,6 +184,7 @@ export default function useForm<TForm extends FormDataType>(
           console.log('onError', errors)
           this.processing = false
           this.progress = null
+          const errorsData = errors
           this.clearErrors().setError(errors)
 
           if (options.onError) {
@@ -221,8 +222,8 @@ export default function useForm<TForm extends FormDataType>(
 
           await _options.onStart()
         },
-        onResponse: async ({ request, options, response }) => {
-          console.log('onResponse', request, options, response)
+        onResponse: async ({ response }) => {
+          console.log('onResponse')
           // onResponse is always called, even if there was an errors
           // return early so we don't execute both this and onResponseError
           if (!response.ok) {
@@ -231,12 +232,12 @@ export default function useForm<TForm extends FormDataType>(
           await _options.onSuccess(response)
           await _options.onFinish()
         },
-        onResponseError: async (error) => {
-          console.log('onResponseError', error)
-          await _options.onError(error)
+        async onResponseError({ response }) {
+          console.log('onResponseError')
+          const errors = response._data.data.errors
+          await _options.onError(errors)
           await _options.onFinish()
         },
-
       })
     },
     get(url, options) {
