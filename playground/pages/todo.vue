@@ -1,9 +1,5 @@
 <script setup lang="ts">
-// const form = useForm({
-//   description: '',
-// })
-
-const form = usePrecognitiveForm('post', '/api/todo', {
+const form = useForm({
   description: '',
 })
 

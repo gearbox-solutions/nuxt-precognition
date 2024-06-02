@@ -21,6 +21,8 @@ defineProps({
 defineOptions({
   inheritAttrs: false,
 })
+
+defineEmits(['change'])
 </script>
 
 <template>
@@ -36,6 +38,7 @@ defineOptions({
       v-model="model"
       :name="name"
       class="rounded-md px-2 py-1"
+      @change="$emit('change')"
     >
     <div
       v-for="error in errors"

@@ -3,11 +3,7 @@
 
 <template>
   <div>
-    <div class="bg-gray-900 px-8 py-4 ">
-      <NuxtLink to="/">
-        Home
-      </NuxtLink>
-    </div>
+    <NavBar />
     <div class="px-8 py-4">
       <slot />
     </div>

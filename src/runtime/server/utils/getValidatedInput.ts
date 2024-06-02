@@ -3,12 +3,12 @@ import type { ZodObject } from 'zod'
 
 export default async function (event: H3Event, validationSchema: ZodObject<never>) {
   const body = await readValidatedBody(event, body => validationSchema.safeParse(body))
-  if (body.success) {
-    return body.data
+  if (!body.success) {
+    throwValidationError(body.error.flatten().fieldErrors)
   }
 
+  return body.data
   // there was an error validating the body
-  throwValidationError(body.error.flatten().fieldErrors)
 }
 
 function throwValidationError(errors: Record<string, string>) {
