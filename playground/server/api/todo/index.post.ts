@@ -1,7 +1,8 @@
 import { z } from 'zod'
 
 const todoRequestSchema = z.object({
-  description: z.string().trim().min(6, 'Description not long enough').startsWith('todo:', 'Must start with "todo:"'),
+  description: z.string().trim().min(1, 'Description not long enough'),
+  // .startsWith('todo:', 'Must start with "todo:"'),
 })
 
 export default defineEventHandler(async (event) => {

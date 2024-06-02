@@ -24,9 +24,9 @@ interface InertiaFormProps<TForm extends FormDataType> {
   clearErrors(...fields: (keyof TForm)[]): this
   setError(field: keyof TForm, value: string): this
   setError(errors: Record<keyof TForm, string>): this
-  submit(method: Method, url: string, options?: Partial<VisitOptions>): void
+  submit(method: Method, url: string, options?: Partial<VisitOptions>): Promise<oFetchResponse>
   get(url: string, options?: Partial<VisitOptions>): void
-  post(url: string, options?: Partial<VisitOptions>): void
+  post(url: string, options?: Partial<VisitOptions>): Promise<oFetchResponse>
   put(url: string, options?: Partial<VisitOptions>): void
   patch(url: string, options?: Partial<VisitOptions>): void
   delete(url: string, options?: Partial<VisitOptions>): void
@@ -131,7 +131,7 @@ export default function useForm<TForm extends FormDataType>(
       return this
     },
     async submit(method, url, options: VisitOptions = {}) {
-      const data = transform(this.data())
+      const data = this.transform(this.data())
       const _options = {
         ...options,
         onCancelToken: (token) => {
@@ -166,8 +166,8 @@ export default function useForm<TForm extends FormDataType>(
             return options.onProgress(event)
           }
         },
-        onSuccess: async (page) => {
-          console.log('onSuccess', page)
+        onSuccess: async (response) => {
+          console.log('onSuccess', response)
           this.processing = false
           this.progress = null
           this.clearErrors()
@@ -175,7 +175,7 @@ export default function useForm<TForm extends FormDataType>(
           this.recentlySuccessful = true
           recentlySuccessfulTimeoutId = setTimeout(() => (this.recentlySuccessful = false), 2000)
 
-          const onSuccess = options.onSuccess ? await options.onSuccess(page) : null
+          const onSuccess = options.onSuccess ? await options.onSuccess(response) : null
           defaults = cloneDeep(this.data())
           this.isDirty = false
           return onSuccess
@@ -214,8 +214,9 @@ export default function useForm<TForm extends FormDataType>(
       // run before hook
       await _options.onBefore()
 
+      let response
       try {
-        const response = await $fetch(url, {
+        response = await $fetch(url, {
           method: method,
           body: data,
           onRequest: async ({ request, options }) => {
@@ -244,12 +245,14 @@ export default function useForm<TForm extends FormDataType>(
       catch (e) {
         // we don't need to do anything here, the onError hook will handle it
       }
+
+      return response
     },
     get(url, options) {
       this.submit('get', url, options)
     },
     post(url, options) {
-      this.submit('post', url, options)
+      return this.submit('post', url, options)
     },
     put(url, options) {
       this.submit('put', url, options)
