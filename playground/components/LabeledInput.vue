@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { PropType } from 'vue'
+
 const model = defineModel<string>()
 defineProps({
   label: {
@@ -14,7 +16,7 @@ defineProps({
     required: true,
   },
   errors: {
-    type: String,
+    type: Array as PropType<string[]>,
     default: null,
   },
 })

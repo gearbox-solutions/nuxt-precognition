@@ -41,30 +41,35 @@ export default function usePrecognitiveForm(method, url, data) {
       },
     }
 
-    await $fetch(form.url, {
-      method: form.method,
-      body: data,
-      onRequest: async ({ request, options }) => {
-        console.log('precognition oFetch onRequest', request, options)
+    try {
+      await $fetch(form.url, {
+        method: form.method,
+        body: data,
+        onRequest: async ({ request, options }) => {
+          console.log('precognition oFetch onRequest', request, options)
 
-        await defaultOptions.onStart()
-      },
-      onResponse: async ({ response }) => {
-        console.log('precognition onResponse')
-        // onResponse is always called, even if there was an errors
-        // return early so we don't execute both this and onResponseError
-        if (!response.ok) {
-          return
-        }
-        await defaultOptions.onSuccess(response)
-        await defaultOptions.onFinish()
-      },
-      onResponseError: async ({ response }) => {
-        console.log('precognition onResponseError')
-        const errors = response._data.data?.errors
-        await defaultOptions.onError(errors)
-      },
-    })
+          await defaultOptions.onStart()
+        },
+        onResponse: async ({ response }) => {
+          console.log('precognition onResponse')
+          // onResponse is always called, even if there was an errors
+          // return early so we don't execute both this and onResponseError
+          if (!response.ok) {
+            return
+          }
+          await defaultOptions.onSuccess(response)
+          await defaultOptions.onFinish()
+        },
+        onResponseError: async ({ response }) => {
+          console.log('precognition onResponseError')
+          const errors = response._data.data?.errors
+          await defaultOptions.onError(errors)
+        },
+      })
+    }
+    catch (e) {
+      // we don't need to do anything here, the onError hook will handle it
+    }
   }
 
   return form

@@ -5,6 +5,10 @@ const todoRequestSchema = z.object({
 })
 
 async function handler(event) {
+  throw createError({
+    statusCode: 500,
+    statusMessage: 'I shouldn\'t run!',
+  })
   const validated = await getValidatedInput(event, todoRequestSchema)
 
   // do something with the body

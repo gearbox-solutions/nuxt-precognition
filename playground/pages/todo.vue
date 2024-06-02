@@ -23,7 +23,6 @@ const submitForm = async () => {
           type="text"
           name="description"
           :errors="form.errors.description"
-          @change="form.validate('description')"
         />
       </div>
 

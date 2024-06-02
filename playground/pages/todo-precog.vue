@@ -3,12 +3,12 @@
 //   description: '',
 // })
 
-const form = usePrecognitiveForm('post', '/api/todo', {
+const form = usePrecognitiveForm('post', '/api/todo-precog', {
   description: '',
 })
 
 const submitForm = async () => {
-  form.post('/api/todo')
+  form.post('/api/todo-precog')
 }
 </script>
 

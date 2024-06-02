@@ -214,31 +214,36 @@ export default function useForm<TForm extends FormDataType>(
       // run before hook
       await _options.onBefore()
 
-      const response = await $fetch(url, {
-        method: method,
-        body: data,
-        onRequest: async ({ request, options }) => {
-          console.log('oFetch onRequest', request, options)
+      try {
+        const response = await $fetch(url, {
+          method: method,
+          body: data,
+          onRequest: async ({ request, options }) => {
+            console.log('oFetch onRequest', request, options)
 
-          await _options.onStart()
-        },
-        onResponse: async ({ response }) => {
-          console.log('onResponse')
-          // onResponse is always called, even if there was an errors
-          // return early so we don't execute both this and onResponseError
-          if (!response.ok) {
-            return
-          }
-          await _options.onSuccess(response)
-          await _options.onFinish()
-        },
-        async onResponseError({ response }) {
-          console.log('onResponseError')
-          const errors = response._data.data?.errors
-          await _options.onError(errors)
-          await _options.onFinish()
-        },
-      })
+            await _options.onStart()
+          },
+          onResponse: async ({ response }) => {
+            console.log('onResponse')
+            // onResponse is always called, even if there was an errors
+            // return early so we don't execute both this and onResponseError
+            if (!response.ok) {
+              return
+            }
+            await _options.onSuccess(response)
+            await _options.onFinish()
+          },
+          async onResponseError({ response }) {
+            console.log('onResponseError')
+            const errors = response._data.data?.errors
+            await _options.onError(errors)
+            await _options.onFinish()
+          },
+        })
+      }
+      catch (e) {
+        // we don't need to do anything here, the onError hook will handle it
+      }
     },
     get(url, options) {
       this.submit('get', url, options)
