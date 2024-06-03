@@ -40,7 +40,6 @@ That's it! You can now use Nuxt Precognition in your Nuxt app ✨
     - `onProgress` - 
     - `onSuccess` - 
     - `onError` - 
-    - `onCacnel` -
     - `onFinish` -
  - Form State
    - `isDirty`
@@ -48,6 +47,16 @@ That's it! You can now use Nuxt Precognition in your Nuxt app ✨
    - `processing`
    - `wasSuccessful`
    - `recentlySuccessful`
+
+
+The useForm composable can be used without the precognition middleware, and is just a convenient way to handle form submission and validation errors in your Nuxt app in general.
+
+### `usePrecognitionForm`
+
+This utility function extends the `useForm` composable to provide a more robust form submission and validation workflow with the `handlePrecognitionRequest` server middleware.
+
+
+###
 
 
 ## Contribution

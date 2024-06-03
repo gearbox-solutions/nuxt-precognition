@@ -2,16 +2,20 @@
 // const form = useForm({
 //   description: '',
 // })
+
 const entries = ref([])
 
-const form = usePrecognitiveForm('post', '/api/todo-precog', {
+const form = usePrecognitionForm('post', '/api/todo-precog', {
   description: '',
-  age: 10,
+  age: null,
 })
 
 const submitForm = async () => {
-  await form.post('/api/todo-precog', {
-    onSuccess: response => entries.value.push(response._data),
+  await form.submit({
+    onSuccess: (response) => {
+      console.log('onSuccess callback', response)
+      entries.value.push(response._data)
+    },
   })
 }
 </script>

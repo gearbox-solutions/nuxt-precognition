@@ -15,9 +15,7 @@ const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
         // return the regular response
         console.log('Regular event handler running')
 
-        const response = await handler(event)
-        // do something after the route handler
-        return { response }
+        return handler(event)
       }
 
       // this is a precognition event

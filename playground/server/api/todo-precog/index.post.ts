@@ -1,15 +1,15 @@
 import { z } from 'zod'
 
 const todoRequestSchema = z.object({
-  description: z.string().trim().min(6, 'Description not long enough').startsWith('todo:', 'Must start with "todo:"'),
+  description: z.string().trim().min(1, 'Description not long enough'), // .startsWith('todo:', 'Must start with "todo:"'),
   age: z.number().min(18, 'Must be at least 18 years old'),
 })
 
 async function handler(event) {
-  throw createError({
-    statusCode: 500,
-    statusMessage: 'I shouldn\'t run!',
-  })
+  // throw createError({
+  //   statusCode: 500,
+  //   statusMessage: 'I shouldn\'t run!',
+  // })
   const validated = await getValidatedInput(event, todoRequestSchema)
 
   // do something with the body

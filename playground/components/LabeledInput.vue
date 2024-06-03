@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PropType } from 'vue'
 
-const model = defineModel<string>()
+const model = defineModel<string | number>()
 defineProps({
   label: {
     type: String,

@@ -30,7 +30,6 @@ interface InertiaFormProps<TForm extends FormDataType> {
   put(url: string, options?: Partial<VisitOptions>): void
   patch(url: string, options?: Partial<VisitOptions>): void
   delete(url: string, options?: Partial<VisitOptions>): void
-  cancel(): void
 }
 
 export type InertiaForm<TForm extends FormDataType> = TForm & InertiaFormProps<TForm>
@@ -50,7 +49,6 @@ export default function useForm<TForm extends FormDataType>(
     ? (restore(rememberKey) as { data: TForm, errors: Record<keyof TForm, string> })
     : null
   let defaults = typeof data === 'object' ? cloneDeep(data) : cloneDeep(data())
-  let cancelToken = null
   let recentlySuccessfulTimeoutId = null
   let transform = data => data
 
@@ -71,7 +69,6 @@ export default function useForm<TForm extends FormDataType>(
     },
     transform(callback) {
       transform = callback
-
       return this
     },
     defaults(fieldOrFields?: keyof TForm | Partial<TForm>, maybeValue?: FormDataConvertible) {
@@ -134,21 +131,14 @@ export default function useForm<TForm extends FormDataType>(
       const data = this.transform(this.data())
       const _options = {
         ...options,
-        onCancelToken: (token) => {
-          cancelToken = token
-
-          if (options.onCancelToken) {
-            return options.onCancelToken(token)
-          }
-        },
-        onBefore: (visit) => {
-          console.log('onBefore', visit)
+        onBefore: () => {
+          console.log('onBefore')
           this.wasSuccessful = false
           this.recentlySuccessful = false
           clearTimeout(recentlySuccessfulTimeoutId)
 
           if (options.onBefore) {
-            return options.onBefore(visit)
+            return options.onBefore()
           }
         },
         onStart: (visit) => {
@@ -184,26 +174,16 @@ export default function useForm<TForm extends FormDataType>(
           console.log('onError', errors)
           this.processing = false
           this.progress = null
-          const errorsData = errors
           this.clearErrors().setError(errors)
 
           if (options.onError) {
             return options.onError(errors)
           }
         },
-        onCancel: () => {
-          this.processing = false
-          this.progress = null
-
-          if (options.onCancel) {
-            return options.onCancel()
-          }
-        },
         onFinish: (visit) => {
           console.log('onFinish')
           this.processing = false
           this.progress = null
-          cancelToken = null
 
           if (options.onFinish) {
             return options.onFinish(visit)
@@ -212,7 +192,10 @@ export default function useForm<TForm extends FormDataType>(
       }
 
       // run before hook
-      await _options.onBefore()
+      const beforeResult = _options.onBefore()
+      if (beforeResult === false) {
+        return
+      }
 
       let response
       try {
@@ -262,11 +245,6 @@ export default function useForm<TForm extends FormDataType>(
     },
     delete(url, options) {
       this.submit('delete', url, options)
-    },
-    cancel() {
-      if (cancelToken) {
-        cancelToken.cancel()
-      }
     },
     __rememberable: rememberKey === null,
     __remember() {
