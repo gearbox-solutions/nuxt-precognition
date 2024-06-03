@@ -21,7 +21,7 @@ const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
       }
 
       // this is a precognition event
-      console.log('Handling pregognition event...')
+      console.log('Handling precognition event...')
       return await processPrecognitionRequest(event, zodSchema, body.precognition.field)
     })
 
@@ -32,7 +32,7 @@ async function processPrecognitionRequest(event: H3Event, zodSchema: ZodSchema, 
   const zodSchemaForField = zodSchema.shape[field]
   const schema = z.object ({ [field]: zodSchemaForField })
   // validate just this one field
-  const validated = await getValidatedInput(event, schema)
+  await getValidatedInput(event, schema)
   return true
 }
 

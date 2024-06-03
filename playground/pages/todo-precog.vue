@@ -6,6 +6,7 @@ const entries = ref([])
 
 const form = usePrecognitiveForm('post', '/api/todo-precog', {
   description: '',
+  age: 10,
 })
 
 const submitForm = async () => {
@@ -22,7 +23,7 @@ const submitForm = async () => {
         class="space-y-4"
         @submit.prevent="submitForm"
       >
-        <div class="space-x-4">
+        <div class="">
           <LabeledInput
             id="description"
             v-model="form.description"
@@ -31,6 +32,17 @@ const submitForm = async () => {
             name="description"
             :errors="form.errors.description"
             @change="form.validate('description')"
+          />
+        </div>
+        <div class="">
+          <LabeledInput
+            id="age"
+            v-model.number="form.age"
+            label="Age"
+            type="text"
+            name="age"
+            :errors="form.errors.age"
+            @change="form.validate('age')"
           />
         </div>
 

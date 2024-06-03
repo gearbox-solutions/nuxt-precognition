@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const todoRequestSchema = z.object({
   description: z.string().trim().min(6, 'Description not long enough').startsWith('todo:', 'Must start with "todo:"'),
+  age: z.number().min(18, 'Must be at least 18 years old'),
 })
 
 async function handler(event) {
