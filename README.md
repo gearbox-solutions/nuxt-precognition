@@ -15,8 +15,6 @@ Nuxt Precognition is a "precognition" utility for sharing server-side validation
 
 - Convenient form submission and validation with `useForm` and `usePrecognitionForm` composables 
 - Server-side validation of form data before the actual form submission with `definePrecognitionEventHandler` Nuxt server middleware
-- 
-- 
 
 ## Quick Setup
 
@@ -30,7 +28,7 @@ That's it! You can now use Nuxt Precognition in your Nuxt app ✨
 
 ## Usage
 
-### `usePrecognitionForm`
+### The usePrecognitionForm Vue Composable
 
 The `usePrecogitionForm` composable is the core feature for setting up the precognition workflow. This composable extends the `useForm` composable (described below)and provides a more robust form submission and validation workflow when used in conjunction with the `handlePrecognitionRequest` server middleware.
 
@@ -114,7 +112,7 @@ const submitForm = async () => {
 
 ```
 
-### `useForm`
+### The useForm Vue Composable
  The `useForm` Vue composable provides a convenient way to handle form submission and validation errors in your Nuxt app. A form created through the `useForm` composable provide your form submissions with a number of useful features:
  - Lifecycle Hooks
     - `onBefore` - 
@@ -197,11 +195,12 @@ const submitForm = async () => {
 
 ```
 
-### The `handlePrecognitionRequest` Server Middleware
+### The handlePrecognitionRequest Server Utility / Middleware
 
 The `handlePrecognitionRequest` server middleware is a server-side middleware that can be used to handle form submissions and validation errors in your Nuxt app. It is designed to work with the `usePrecognitionForm` composable, and will validate the data submitted by that form, and will return validation results before it reaches the main part of your handler.
 
-> Important! Your main handler code will not run on a precognition validation request, even though it will be posting to the same endpoint
+> [!Note]  
+> Your main handler code will not run on a precognition validation request, even though it will be posting to the same endpoint
 
 Validation is configured using a [Zod Object](https://zod.dev/?id=objects) which should be designed to handle the fields in your form subimssion.
 
