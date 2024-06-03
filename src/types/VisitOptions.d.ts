@@ -4,35 +4,31 @@ export type GlobalEventsMap = {
     details: {
       visit: PendingVisit
     }
-    result: boolean | void
+    result?: boolean
   }
   start: {
     parameters: [PendingVisit]
     details: {
       visit: PendingVisit
     }
-    result: void
   }
   finish: {
     parameters: [ActiveVisit]
     details: {
       visit: ActiveVisit
     }
-    result: void
   }
   success: {
     parameters: [Page]
     details: {
       page: Page
     }
-    result: void
   }
   error: {
     parameters: [Errors]
     details: {
       errors: Errors
     }
-    result: void
   }
 }
 
