@@ -6,7 +6,7 @@ export interface ModuleOptions {}
 export default defineNuxtModule<ModuleOptions>({
   meta: {
     name: 'nuxt-precognition',
-    configKey: 'myModule',
+    configKey: 'nuxtPrecognition',
   },
   // Default configuration options of the Nuxt module
   defaults: {},
@@ -15,8 +15,5 @@ export default defineNuxtModule<ModuleOptions>({
 
     addImportsDir(resolver.resolve('./runtime/composables'))
     addServerImportsDir(resolver.resolve('./runtime/server/utils'))
-
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-    addPlugin(resolver.resolve('./runtime/plugin'))
   },
 })

@@ -1,10 +1,10 @@
 import type { EventHandler, EventHandlerRequest, H3Event } from 'h3'
-import type { ZodSchema, type ZodObject } from 'zod'
+import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
 
 const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
+  zodObject: ZodObject,
   handler: EventHandler<T, D>,
-  zodObject: ZodObject<never>,
 ): EventHandler<T, D> =>
     defineEventHandler<T>(async (event) => {
       // do something before the route handler
