@@ -2,6 +2,7 @@ import type { AxiosProgressEvent } from 'axios'
 import cloneDeep from 'lodash.clonedeep'
 import isEqual from 'lodash.isequal'
 import { reactive, watch } from 'vue'
+import type { NitroFetchRequest } from 'nitropack'
 import type FormDataConvertible from '~/types/FormDataconvertible'
 import type Method from '~/types/Method'
 import type VisitOptions from '~/types/VisitOptions'
@@ -24,9 +25,9 @@ interface InertiaFormProps<TForm extends FormDataType> {
   clearErrors(...fields: (keyof TForm)[]): this
   setError(field: keyof TForm, value: string): this
   setError(errors: Record<keyof TForm, string>): this
-  submit(method: Method, url: string, options?: Partial<VisitOptions>): Promise<oFetchResponse>
+  submit(method: Method, url: string, options?: Partial<VisitOptions>): Promise<NitroFetchRequest>
   get(url: string, options?: Partial<VisitOptions>): void
-  post(url: string, options?: Partial<VisitOptions>): Promise<oFetchResponse>
+  post(url: string, options?: Partial<VisitOptions>): Promise<NitroFetchRequest>
   put(url: string, options?: Partial<VisitOptions>): void
   patch(url: string, options?: Partial<VisitOptions>): void
   delete(url: string, options?: Partial<VisitOptions>): void
