@@ -16,10 +16,6 @@ export default function usePrecognitionForm<Data extends Record<string, unknown>
   return form
 }
 
-function precogSubmit(method: RequestMethod, url: string, data: Record<string, unknown>) {
-  baseSubmit(method, url, data)
-}
-
 async function validate(fieldName: string) {
   console.log('validate', fieldName)
   const data = { [fieldName]: this.transform(this.data())[fieldName] }
