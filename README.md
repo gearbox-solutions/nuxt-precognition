@@ -218,9 +218,7 @@ const todoRequestSchema = z.object({
 })
 
 // use the Precognition handler with the Zod schema
-export default definePrecognitionEventHandler(
-  todoRequestSchema,
-  async (event) => {
+export default definePrecognitionEventHandler(todoRequestSchema, async (event) => {
     const validated = await getValidatedInput(event, todoRequestSchema)
 
     // do something with the body
