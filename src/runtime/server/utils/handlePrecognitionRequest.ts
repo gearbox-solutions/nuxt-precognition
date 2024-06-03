@@ -4,7 +4,7 @@ import { z } from 'zod'
 
 const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
   handler: EventHandler<T, D>,
-  zodSchema: ZodObject<never>,
+  zodObject: ZodObject<never>,
 ): EventHandler<T, D> =>
     defineEventHandler<T>(async (event) => {
       // do something before the route handler
@@ -20,7 +20,7 @@ const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
 
       // this is a precognition event
       console.log('Handling precognition event...')
-      return await processPrecognitionRequest(event, zodSchema, body.precognition.field)
+      return await processPrecognitionRequest(event, zodObject, body.precognition.field)
     })
 
 async function processPrecognitionRequest(event: H3Event, zodSchema: ZodSchema, field: string) {
