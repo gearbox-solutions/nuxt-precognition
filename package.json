@@ -1,13 +1,20 @@
 {
-  "name": "nuxt-precognition",
+  "name": "@gearbox-solutions/nuxt-precognition",
   "version": "0.0.2",
   "description": "Precognition module for Nuxt",
+  "author": "Gearbox Solutions",
   "keywords": [
     "nuxt",
     "nuxt-module",
     "precognition"
   ],
-  "repository": "gearbox-solutions/nuxt-precognition",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gearbox-solutions/nuxt-precognition"
+  },
+  "bugs": {
+    "url": "https://github.com/gearbox-solutions/nuxt-precognition/issues"
+  },
   "license": "MIT",
   "type": "module",
   "exports": {

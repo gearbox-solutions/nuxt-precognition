@@ -21,7 +21,7 @@ Nuxt Precognition is a "precognition" utility for sharing server-side validation
 Install the module to your Nuxt application with one command:
 
 ```bash
-npx nuxi module add nuxt-precognition
+npx nuxi module add @gearbox-solutions/nuxt-precognition
 ```
 
 That's it! You can now use Nuxt Precognition in your Nuxt app ✨
