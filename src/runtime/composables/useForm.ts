@@ -128,7 +128,7 @@ export default function useForm<TForm extends FormDataType>(
       return this
     },
     async submit(method, url, options: VisitOptions = {}) {
-      const data = this.transform(this.data())
+      const data = transform(this.data())
       const _options = {
         ...options,
         onBefore: () => {
