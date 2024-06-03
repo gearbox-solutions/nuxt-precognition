@@ -227,7 +227,7 @@ export default definePrecognitionEventHandler(todoRequestSchema, async (event) =
       description: validated.description,
     }
 
-    // simulate a slow response to show the loading state o the front-end
+    // simulate a slow response to show the loading state on the front-end
     await sleep(1000)
 
     return newTodo
