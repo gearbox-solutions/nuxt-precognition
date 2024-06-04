@@ -1,5 +1,5 @@
-import cloneDeep from 'lodash.clonedeep'
-import isEqual from 'lodash.isequal'
+import cloneDeep from 'lodash/cloneDeep.js'
+import isEqual from 'lodash/isEqual.js'
 import { reactive, watch } from 'vue'
 import type { NitroFetchRequest } from 'nitropack'
 import type FormDataConvertible from '~/types/FormDataconvertible'
