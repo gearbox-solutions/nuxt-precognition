@@ -11,7 +11,7 @@ importers:
       '@nuxt/kit':
         specifier: ^3.11.2
         version: 3.11.2(rollup@4.18.0)
-      lodash:
+      lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
       lodash.isequal:

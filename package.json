@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
-    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
     "lodash.isequal": "^4.5.0",
     "zod": "^3.23.8"
   },
