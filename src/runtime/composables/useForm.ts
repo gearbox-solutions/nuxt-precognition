@@ -1,5 +1,6 @@
 import type { AxiosProgressEvent } from 'axios'
-import { cloneDeep, isEqual } from 'lodash'
+import cloneDeep from 'lodash.clonedeep'
+import isEqual from 'lodash.isequal'
 import { reactive, watch } from 'vue'
 import type { NitroFetchRequest } from 'nitropack'
 import type FormDataConvertible from '~/types/FormDataconvertible'
