@@ -1,6 +1,5 @@
 import type { AxiosProgressEvent } from 'axios'
-import cloneDeep from 'lodash.clonedeep'
-import isEqual from 'lodash.isequal'
+import { cloneDeep, isEqual } from 'lodash'
 import { reactive, watch } from 'vue'
 import type { NitroFetchRequest } from 'nitropack'
 import type FormDataConvertible from '~/types/FormDataconvertible'
@@ -51,7 +50,7 @@ export default function useForm<TForm extends FormDataType>(
     : null
   let defaults = typeof data === 'object' ? cloneDeep(data) : cloneDeep(data())
   let recentlySuccessfulTimeoutId = null
-  let transform = data => data
+  let _transform = data => data
 
   const form = reactive({
     ...(restored ? restored.data : cloneDeep(defaults)),
@@ -69,7 +68,7 @@ export default function useForm<TForm extends FormDataType>(
       }, {} as Partial<TForm>) as TForm
     },
     transform(callback) {
-      transform = callback
+      _transform = callback
       return this
     },
     defaults(fieldOrFields?: keyof TForm | Partial<TForm>, maybeValue?: FormDataConvertible) {
@@ -129,7 +128,7 @@ export default function useForm<TForm extends FormDataType>(
       return this
     },
     async submit(method, url, options: VisitOptions = {}) {
-      const data = transform(this.data())
+      const data = this.transform(this.data())
       const _options = {
         ...options,
         onBefore: () => {

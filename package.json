@@ -1,6 +1,6 @@
 {
   "name": "@gearbox-solutions/nuxt-precognition",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Precognition module for Nuxt",
   "author": "Gearbox Solutions",
   "keywords": [
@@ -43,8 +43,8 @@
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
     "axios": "^1.7.2",
-    "lodash.clonedeep": "^4.5.0",
-    "lodash.isequal": "^4.5.0"
+    "lodash": "^4.17.21",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@nuxt/devtools": "^1.2.0",
@@ -58,7 +58,6 @@
     "nuxt": "^3.11.2",
     "typescript": "latest",
     "vitest": "^1.6.0",
-    "vue-tsc": "^2.0.16",
-    "zod": "^3.23.8"
+    "vue-tsc": "^2.0.16"
   }
 }

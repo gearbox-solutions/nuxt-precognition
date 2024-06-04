@@ -1,6 +1,8 @@
-import type { EventHandler, EventHandlerRequest, H3Event } from 'h3'
+import { type EventHandler, type EventHandlerRequest, type H3Event } from 'h3'
 import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
+import { readBody, defineEventHandler } from 'h3'
+import getValidatedInput from './getValidatedInput'
 
 const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
   zodObject: ZodObject,
