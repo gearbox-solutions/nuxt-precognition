@@ -1,4 +1,4 @@
-import isEqual from 'lodash.isequal/index.js'
+import { isEqual } from 'lodash.isequal/index.js'
 import { reactive, watch } from 'vue'
 import type { NitroFetchRequest } from 'nitropack'
 import type FormDataConvertible from '~/types/FormDataconvertible'
