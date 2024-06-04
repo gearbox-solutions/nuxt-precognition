@@ -1,4 +1,3 @@
-import type { AxiosProgressEvent } from 'axios'
 import cloneDeep from 'lodash.clonedeep'
 import isEqual from 'lodash.isequal'
 import { reactive, watch } from 'vue'
@@ -14,7 +13,6 @@ interface InertiaFormProps<TForm extends FormDataType> {
   errors: Partial<Record<keyof TForm, string>>
   hasErrors: boolean
   processing: boolean
-  progress: AxiosProgressEvent | null
   wasSuccessful: boolean
   recentlySuccessful: boolean
   data(): TForm
