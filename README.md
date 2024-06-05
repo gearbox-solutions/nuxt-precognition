@@ -26,6 +26,9 @@ npx nuxi module add @gearbox-solutions/nuxt-precognition
 
 That's it! You can now use Nuxt Precognition in your Nuxt app ✨
 
+## Examples
+An example implementation can be found in the `/playground` directory of this project. You can run it locally by checking out this repo, installing dependencies with `pnpm install`, and then running the playground with `pnpm run dev`. This should launch a local server for you to see the form submissions both with validation-only using the `useForm` composable and precognition validation with `usePrecognitionForm`.
+
 ## Usage
 
 ### The usePrecognitionForm Vue Composable
