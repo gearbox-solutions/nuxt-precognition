@@ -47,6 +47,7 @@ const submitForm = async () => {
             name="age"
             :errors="form.errors.age"
             @change="form.validate('age')"
+            @focus="$event.target.select()"
           />
         </div>
 

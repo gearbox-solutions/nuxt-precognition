@@ -1,10 +1,11 @@
+import { FetchContext, FetchResponse } from 'ofetch'
 import useForm from './useForm'
 
 export default function usePrecognitionForm<Data extends Record<string, unknown>>(method: RequestMethod, url: string | (() => string), data: Data) {
   const form = useForm(data)
   form.method = method
   form.url = resolveUrl(url)
-  form.validate = validate.bind(form)
+  form.validate = validate
   form.validating = false
   const baseSubmit = form.submit
   const precogSubmit = (data: Record<string, unknown>) => {
@@ -18,10 +19,21 @@ export default function usePrecognitionForm<Data extends Record<string, unknown>
 
 async function validate(fieldName: string) {
   console.log('validate', fieldName)
-  const data = { [fieldName]: this.transform(this.data())[fieldName] }
-  data.precognition = {
-    field: fieldName,
+  // check if the fieldName is an array
+  let onlyFieldsToValidate
+  const transformedData = this.transform(this.data())
+  if (Array.isArray(fieldName)) {
+    // get only the keys that are listed in the array
+    fieldName.forEach((key) => {
+      if (onlyFieldsToValidate[key] !== undefined) {
+        onlyFieldsToValidate[key] = transformedData[key]
+      }
+    })
   }
+  else {
+    onlyFieldsToValidate = { [fieldName]: transformedData[fieldName] }
+  }
+
   const defaultOptions = {
     onStart: () => {
       console.log('precognition onStart')
@@ -32,34 +44,30 @@ async function validate(fieldName: string) {
       this.clearErrors()
     },
     onError: (errors) => {
-      console.log('precognitiononError', errors)
+      console.log('precognitionOnError', errors)
       this.setError(errors)
     },
     onFinish: () => {
-      console.log('precognitiononFinish')
+      console.log('precognitionOnFinish')
       this.validating = false
     },
   }
 
+  const validateOnly = Object.keys(onlyFieldsToValidate).join()
+
+  console.log('precognition oFetch')
   try {
-    console.log('precognition oFetch')
-    await $fetch(this.url, {
+    const response = await $fetch(this.url, {
       method: this.method,
-      body: data,
+      headers: {
+        'Precognition': true,
+        'Precognition-Validate-Only': validateOnly,
+      },
+      body: onlyFieldsToValidate,
       onRequest: async ({ request, options }) => {
         console.log('precognition oFetch onRequest', request, options)
 
         await defaultOptions.onStart()
-      },
-      onResponse: async ({ response }) => {
-        console.log('precognition onResponse')
-        // onResponse is always called, even if there was an errors
-        // return early so we don't execute both this and onResponseError
-        if (!response.ok) {
-          return
-        }
-        await defaultOptions.onSuccess(response)
-        await defaultOptions.onFinish()
       },
       onResponseError: async ({ response }) => {
         console.log('precognition onResponseError')
@@ -67,10 +75,19 @@ async function validate(fieldName: string) {
         await defaultOptions.onError(errors)
         await defaultOptions.onFinish()
       },
+    }).catch(async (e) => {
+      if (e.status !== 422) {
+      // this isn't a precognition error
+        throw e
+      }
+
+      console.log('precognition onResponseError')
+      const errors = e.data?.data?.errors
+      await defaultOptions.onError(errors)
+      await defaultOptions.onFinish()
     })
   }
   catch (e) {
-    // we don't need to do anything here, the onError hook will handle it
   }
 }
 

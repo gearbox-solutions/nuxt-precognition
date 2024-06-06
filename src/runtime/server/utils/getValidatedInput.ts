@@ -1,11 +1,12 @@
-import type { H3Event } from 'h3'
+import { type H3Event } from 'h3'
 import type { ZodObject } from 'zod'
-import { readValidatedBody, createError } from 'h3'
+import { readValidatedBody } from 'h3'
 
 export default async function<T>(event: H3Event, validationSchema: ZodObject<unknown>) {
   const body = await readValidatedBody<T>(event, body => validationSchema.safeParse(body))
   if (!body.success) {
-    throwValidationError(body.error.flatten().fieldErrors)
+    const fieldErrors = body.error.flatten().fieldErrors
+    throwValidationError(fieldErrors)
   }
 
   return body.data
@@ -13,11 +14,12 @@ export default async function<T>(event: H3Event, validationSchema: ZodObject<unk
 }
 
 function throwValidationError(errors: Record<string, string>) {
-  throw createError(
+  const error = createError(
     {
       statusCode: 422,
       message: 'Validation Error',
       data: { errors },
     },
   )
+  throw error
 }

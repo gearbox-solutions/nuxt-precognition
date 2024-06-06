@@ -1,18 +1,21 @@
-import { type EventHandler, type EventHandlerRequest, type H3Event } from 'h3'
+import { type EventHandler, type EventHandlerRequest, type H3Event, setResponseHeader, setResponseStatus } from 'h3'
 import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
 import { readBody, defineEventHandler } from 'h3'
 import getValidatedInput from './getValidatedInput'
 
-const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
+const precognitionEventHandler = <T extends EventHandlerRequest, D> (
   zodObject: ZodObject,
   handler: EventHandler<T, D>,
 ): EventHandler<T, D> =>
     defineEventHandler<T>(async (event) => {
       // do something before the route handler
       console.log('starting precognition event handler')
+      const headers = getHeaders(event)
+
       const body = await readBody(event)
-      if (!body.precognition) {
+
+      if (!headers.precognition) {
         // this is not a precognition event
         // return the regular response
         console.log('Regular event handler running')
@@ -20,20 +23,43 @@ const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
         return handler(event)
       }
 
+      const validateOnlyHeader = headers['precognition-validate-only']
+      const fieldsToValidate = validateOnlyHeader
+        ? validateOnlyHeader.split(',')
+        : []
+
       // this is a precognition event
       console.log('Handling precognition event...')
-      return await processPrecognitionRequest(event, zodObject, body.precognition.field)
+      return await processPrecognitionRequest(event, zodObject, fieldsToValidate)
     })
 
-async function processPrecognitionRequest(event: H3Event, zodSchema: ZodSchema, field: string) {
+async function processPrecognitionRequest(event: H3Event, zodSchema: ZodSchema, fieldsToValidate: string) {
   // get the field we want to validate from the precognition object
 
-  // get the zod validation schema for the field
-  const zodSchemaForField = zodSchema.shape[field]
-  const schema = z.object ({ [field]: zodSchemaForField })
+  // get the zod validation schema only for the fields we want to validate
+  const zodSchemaToUse = fieldsToValidate.reduce((obj, field) => {
+    obj[field] = zodSchema.shape[field]
+    return obj
+  }, {} as Record<string, ZodSchema>)
+
+  // turn our individual schema into a zod object
+  const schema = z.object (zodSchemaToUse)
   // validate just this one field
-  await getValidatedInput(event, schema)
+  try {
+    await getValidatedInput(event, schema)
+  }
+  catch (error) {
+    // only handle our expected errors
+    if (!(error.statusCode === 422)) {
+      throw error
+    }
+
+    // if we get a validation error, we need to return a 422 response
+    setResponseHeader(event, 'precognition', true)
+    setResponseStatus(event, 422, 'validation error')
+    return { errors: error.data.errors }
+  }
   return true
 }
 
-export default defineWrappedResponseHandler
+export default precognitionEventHandler

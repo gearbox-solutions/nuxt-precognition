@@ -110,7 +110,7 @@ export default function useForm<TForm extends FormDataType>(
 
       this.hasErrors = Object.keys(this.errors).length > 0
 
-      return this
+      return
     },
     clearErrors(...fields) {
       this.errors = Object.keys(this.errors).reduce(
