@@ -82,7 +82,7 @@ async function validate(fieldName: string) {
       }
 
       console.log('precognition onResponseError')
-      const errors = e.data?.data?.errors
+      const errors = e.data?.errors
       await defaultOptions.onError(errors)
       await defaultOptions.onFinish()
     })
