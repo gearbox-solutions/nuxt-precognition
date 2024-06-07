@@ -1,3 +1,3 @@
-import precognitionEventHandler from './definePrecognitionEventHandler'
+import precognitionEventHandler from "./definePrecognitionEventHandler";
 
-export default precognitionEventHandler
+export default precognitionEventHandler;

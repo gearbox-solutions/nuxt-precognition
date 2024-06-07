@@ -7,4 +7,4 @@ export type FormDataConvertible =
   | boolean
   | number
   | null
-  | undefined
+  | undefined;
