@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { PropType } from 'vue'
+import type { PropType } from "vue";
 
-const model = defineModel<string | number>()
+const model = defineModel<string | number>();
 defineProps({
   label: {
     type: String,
@@ -19,20 +19,17 @@ defineProps({
     type: Array as PropType<string[]>,
     default: null,
   },
-})
+});
 defineOptions({
   inheritAttrs: false,
-})
+});
 
-defineEmits(['change'])
+defineEmits(["change"]);
 </script>
 
 <template>
   <div class="space-y-1">
-    <label
-      :for="id"
-      class="block text-sm uppercase"
-    >{{ label }}</label>
+    <label :for="id" class="block text-sm uppercase">{{ label }}</label>
 
     <input
       v-bind="$attrs"
@@ -41,12 +38,8 @@ defineEmits(['change'])
       :name="name"
       class="rounded-md px-2 py-1"
       @change="$emit('change')"
-    >
-    <div
-      v-for="error in errors"
-      :key="error"
-      class="text-red-500"
-    >
+    />
+    <div v-for="error in errors" :key="error" class="text-red-500">
       {{ error }}
     </div>
   </div>

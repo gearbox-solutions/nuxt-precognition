@@ -1,18 +1,15 @@
 <script setup>
 useHead({
-  title: 'useForm Tester',
+  title: "useForm Tester",
   bodyAttrs: {
-    class: 'bg-gray-800 text-gray-200',
+    class: "text-gray-200 bg-gray-800",
   },
-})
+});
 </script>
 
 <template>
   <Head>
-    <Meta
-      name="color-scheme"
-      content="dark"
-    />
+    <Meta name="color-scheme" content="dark" />
   </Head>
   <NuxtLayout>
     <NuxtPage />

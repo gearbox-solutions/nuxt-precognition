@@ -1,13 +1,13 @@
 export default defineNuxtConfig({
-  modules: ['../src/module'],
+  modules: ["../src/module"],
   myModule: {},
   devtools: { enabled: true },
-  css: ['~/assets/app.css'],
+  css: ["~/assets/app.css"],
 
   postcss: {
     plugins: {
-      tailwindcss: { config: './playground/tailwind.config.js' },
+      tailwindcss: { config: "./playground/tailwind.config.js" },
       autoprefixer: {},
     },
   },
-})
+});

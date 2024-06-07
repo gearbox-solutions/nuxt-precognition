@@ -1,25 +1,22 @@
 <script setup lang="ts">
-const entries = ref([])
+const entries = ref([]);
 const form = useForm({
-  description: '',
-})
+  description: "",
+});
 
 const submitForm = async () => {
-  await form.post('/api/todo', {
+  await form.post("/api/todo", {
     onSuccess: (response) => {
-      entries.value.push(response._data)
+      entries.value.push(response._data);
     },
-  })
-}
+  });
+};
 </script>
 
 <template>
   <div>
     <div class="flex gap-x-8">
-      <form
-        class="space-y-4"
-        @submit.prevent="submitForm"
-      >
+      <form class="space-y-4" @submit.prevent="submitForm">
         <div class="space-x-4">
           <LabeledInput
             id="description"
@@ -32,22 +29,15 @@ const submitForm = async () => {
         </div>
 
         <div>
-          <ButtonPrimary :disabled="form.processing">
-            Submit
-          </buttonprimary>
+          <ButtonPrimary :disabled="form.processing"> Submit </ButtonPrimary>
         </div>
       </form>
       <pre>{{ form }}</pre>
     </div>
     <div class="pt-12">
       <pre />
-      <div class="text-lg font-bold uppercase">
-        Entries
-      </div>
-      <div
-        v-for="(entry, index) in entries"
-        :key="index"
-      >
+      <div class="text-lg font-bold uppercase">Entries</div>
+      <div v-for="(entry, index) in entries" :key="index">
         {{ entry.description }}
       </div>
     </div>

@@ -3,30 +3,27 @@
 //   description: '',
 // })
 
-const entries = ref([])
+const entries = ref([]);
 
-const form = usePrecognitionForm('post', '/api/todo-precog', {
-  description: '',
+const form = usePrecognitionForm("post", "/api/todo-precog", {
+  description: "",
   age: null,
-})
+});
 
 const submitForm = async () => {
   await form.submit({
     onSuccess: (response) => {
-      console.log('onSuccess callback', response)
-      entries.value.push(response._data)
+      console.log("onSuccess callback", response);
+      entries.value.push(response._data);
     },
-  })
-}
+  });
+};
 </script>
 
 <template>
   <div>
     <div class="flex gap-x-8">
-      <form
-        class="space-y-4"
-        @submit.prevent="submitForm"
-      >
+      <form class="space-y-4" @submit.prevent="submitForm">
         <div class="">
           <LabeledInput
             id="description"
@@ -52,22 +49,15 @@ const submitForm = async () => {
         </div>
 
         <div>
-          <ButtonPrimary :disabled="form.processing || form.hasErrors">
-            Submit
-          </buttonprimary>
+          <ButtonPrimary :disabled="form.processing || form.hasErrors"> Submit </ButtonPrimary>
         </div>
       </form>
       <pre>{{ form }}</pre>
     </div>
     <div class="pt-12">
       <pre />
-      <div class="text-lg font-bold uppercase">
-        Entries
-      </div>
-      <div
-        v-for="(entry, index) in entries"
-        :key="index"
-      >
+      <div class="text-lg font-bold uppercase">Entries</div>
+      <div v-for="(entry, index) in entries" :key="index">
         {{ entry.description }}
       </div>
     </div>
