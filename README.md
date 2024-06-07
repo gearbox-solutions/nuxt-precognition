@@ -39,7 +39,7 @@ The `useProecognitionForm` composable is automatically imported into your Nuxt a
 
 This composable is used to create your form object and with handle form submission and validation. It is stateful, and will provide you with the form states and errors for you to nicely display validation and submission state in your components.
 
-Here is an example of using the `usePrecognitionForm` composable to create a form object and handle form submission and validation:
+Here is an example of using the `usePrecognitionForm` composable to create a form object, validate the data on change, and handle form submission and responses:
 
 ```vue
 <script setup lang="ts">
@@ -113,7 +113,7 @@ const submitForm = async () => {
 ```
 
 ### The useForm Vue Composable
- The `useForm` Vue composable provides a convenient way to handle form submission and validation errors in your Nuxt app. A form created through the `useForm` composable provide your form submissions with a number of useful features:
+ The `useForm` Vue composable provides a convenient way to handle form submission and validation errors in your Nuxt app for cases when you may not want to use the full precognition features, but still keep the same convenient form-submission process. A form created through the `useForm` composable provide your form submissions with a number of useful features:
  - Lifecycle Hooks
     - `onBefore` - 
     - `onStart` -
@@ -131,7 +131,7 @@ This form is based on the [`useForm` composable from Inertia.js](https://inertia
 
 This composable is automatically imported into your Nuxt app when you install the module, and can be used without needing to manually import it.
 
-The useForm composable can be used without the precognition middleware, and is just a convenient way to handle form submission and validation errors in your Nuxt app in general.
+The useForm composable can be used without the precognition middleware, and is just a convenient way to handle form submission and validation errors in your Nuxt app in general. You can use this with the `getValidatedInput()` utility to validate and return validation errors if you don't want to do the precognition validation.
 
 Here is an example of using the form to submit a Todo item to an API endpoint:
 ```vue
@@ -200,7 +200,7 @@ const submitForm = async () => {
 The `handlePrecognitionRequest` server middleware is a server-side middleware that can be used to handle form submissions and validation errors in your Nuxt app. It is designed to work with the `usePrecognitionForm` composable, and will validate the data submitted by that form, and will return validation results before it reaches the main part of your handler.
 
 > [!Note]  
-> Your main handler code will not run on a precognition validation request, even though it will be posting to the same endpoint
+> Your main handler code will not run on a precognition validation request, even though it will be posting to the same endpoint. How convenient!
 
 Validation is configured using a [Zod Object](https://zod.dev/?id=objects) which should be designed to handle the fields in your form subimssion.
 
@@ -208,7 +208,17 @@ Your Nuxt server routes should return a default `definePrecognitionEventHandler`
 
 This new handler type is automatically imported by Nuxt when the module is installed, and does not need to be manually imported.
 
-Example Todo API endpoint handler:
+```ts
+definePrecognitionEventHandler(zodSchemaObject, handler)
+```
+
+#### Parameters:
+
+* **zodSchemaObject** - The Zod validation [Schema Object](https://zod.dev/?id=objects) which will be used for validation of form data on Precognition requests, without executing the handler.
+* **handler** - A regular [Nuxt event handler callback function](https://nuxt.com/docs/guide/directory-structure/server) to run, which would be your regular event handler for this server endpoint.
+
+
+Example API endpoint handler:
 ```ts
 import { z } from 'zod'
 
@@ -218,19 +228,17 @@ const todoRequestSchema = z.object({
 })
 
 // use the Precognition handler with the Zod schema
+// definePrecognitionEventHandler is used instead of defineEventHandler
 export default definePrecognitionEventHandler(todoRequestSchema, async (event) => {
+  
+    // This handler callback doesn't execute on precognition validation requests!
+  
+    // perform validation on the input for when the form is directly submitted
     const validated = await getValidatedInput(event, todoRequestSchema)
 
-    // do something with the body
-    const newTodo = {
-      id: 1,
-      description: validated.description,
-    }
-
-    // simulate a slow response to show the loading state on the front-end
-    await sleep(1000)
-
-    return newTodo
+    // continue and do something with the body
+    // ...
+    // ...
   })
 
 function sleep(ms: number) {
@@ -239,8 +247,38 @@ function sleep(ms: number) {
 
 ```
 
+### The getValidatedInput() utlity function
+The `getValidatedInput` utility function provides a simple, one-liner function call for validating your input. This function is a wrapper around H3's [`readValidatedBody`](https://h3.unjs.io/examples/validate-data#validate-body) to make it easier to reuse your same Zod validation object as in your precognition request handling.
 
-###
+This utility function is automatically imported by Nuxt.
+
+```
+getValidatedInput(event, validationSchema)
+```
+
+#### Parameters:
+
+* **event** - the H3 event being processed by your event handler
+ * **validationSchema** - The Zod validation schema, which you would probably want to be the same schema as used by your `definePrecognitionEventHandler`
+
+#### Returns:
+a promise which will resolve to an object of your validated form data. You can `await` this function call to get the form data directly. 
+
+#### Throws: 
+A [Nuxt Error Object](https://nuxt.com/docs/api/utils/create-error) with validation error information. You can allow this error to be thrown, which will then be received by the `usePrecogntionForm` or `useForm` composables to update your validation error state. Alternatively, you may decide to catch the error and handle it.
+
+
+### Example:
+```ts
+export default defineEventHandler(async (event) => {
+  // get the validated form data or throw an exception back to our form
+  const validated = await getValidatedInput(event, todoRequestSchema)
+
+  // continue and do something with the form data
+  // ...
+  // ...
+})
+```
 
 
 ## Contribution
