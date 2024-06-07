@@ -1,7 +1,7 @@
 import { type EventHandler, type EventHandlerRequest, type H3Event, setResponseHeader } from 'h3'
 import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
-import { defineEventHandler } from 'h3'
+import { defineEventHandler, getHeaders } from 'h3'
 import getValidatedInput from './getValidatedInput'
 
 const precognitionEventHandler = <T extends EventHandlerRequest, D> (
