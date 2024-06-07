@@ -1,8 +1,4 @@
 <script setup lang="ts">
-// const form = useForm({
-//   description: '',
-// })
-
 const entries = ref([]);
 
 const form = usePrecognitionForm("post", "/api/register-precog", {
