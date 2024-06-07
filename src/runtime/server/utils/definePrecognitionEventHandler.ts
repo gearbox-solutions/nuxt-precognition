@@ -1,7 +1,7 @@
 import { type EventHandler, type EventHandlerRequest, type H3Event, setResponseHeader, setResponseStatus } from 'h3'
 import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
-import { readBody, defineEventHandler } from 'h3'
+import { defineEventHandler } from 'h3'
 import getValidatedInput from './getValidatedInput'
 
 const precognitionEventHandler = <T extends EventHandlerRequest, D> (
@@ -12,8 +12,6 @@ const precognitionEventHandler = <T extends EventHandlerRequest, D> (
       // do something before the route handler
       console.log('starting precognition event handler')
       const headers = getHeaders(event)
-
-      const body = await readBody(event)
 
       if (!headers.precognition) {
         // this is not a precognition event
