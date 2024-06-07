@@ -75,19 +75,13 @@ async function validate(fieldName: string) {
         await defaultOptions.onError(errors)
         await defaultOptions.onFinish()
       },
-    }).catch(async (e) => {
-      if (e.status !== 422) {
-      // this isn't a precognition error
-        throw e
-      }
-
-      console.log('precognition onResponseError')
-      const errors = e.data?.errors
-      await defaultOptions.onError(errors)
-      await defaultOptions.onFinish()
     })
   }
   catch (e) {
+    if (e.status !== 422) {
+      // this isn't a precognition error
+      throw e
+    }
   }
 }
 

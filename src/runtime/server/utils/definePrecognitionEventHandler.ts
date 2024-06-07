@@ -54,10 +54,8 @@ async function processPrecognitionRequest(event: H3Event, zodSchema: ZodSchema, 
       throw error
     }
 
-    // if we get a validation error, we need to return a 422 response
     setResponseHeader(event, 'precognition', true)
-    setResponseStatus(event, 422, 'validation error')
-    return { errors: error.data.errors }
+    throw error
   }
   return true
 }
