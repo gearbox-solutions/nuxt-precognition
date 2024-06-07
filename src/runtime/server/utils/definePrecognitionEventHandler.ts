@@ -1,4 +1,4 @@
-import { type EventHandler, type EventHandlerRequest, type H3Event, setResponseHeader, setResponseStatus } from 'h3'
+import { type EventHandler, type EventHandlerRequest, type H3Event, setResponseHeader } from 'h3'
 import type { ZodSchema, ZodObject } from 'zod'
 import { z } from 'zod'
 import { defineEventHandler } from 'h3'

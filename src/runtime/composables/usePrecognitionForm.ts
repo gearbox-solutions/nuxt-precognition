@@ -57,7 +57,7 @@ async function validate(fieldName: string) {
 
   console.log('precognition oFetch')
   try {
-    const response = await $fetch(this.url, {
+    await $fetch(this.url, {
       method: this.method,
       headers: {
         'Precognition': true,
