@@ -1,4 +1,4 @@
-import { FetchContext, FetchResponse } from 'ofetch'
+import type { FetchContext, FetchResponse } from 'ofetch'
 import useForm from './useForm'
 
 export default function usePrecognitionForm<Data extends Record<string, unknown>>(method: RequestMethod, url: string | (() => string), data: Data) {
@@ -68,6 +68,14 @@ async function validate(fieldName: string) {
         console.log('precognition oFetch onRequest', request, options)
 
         await defaultOptions.onStart()
+      },
+      onResponse: async (context: FetchContext & { response: FetchResponse<R> }): Promise<void> | void => {
+        if (!context.response.ok) {
+          return
+        }
+
+        // clear the errors for the validated fields
+        await this.clearErrors(validateOnly)
       },
       onResponseError: async ({ response }) => {
         console.log('precognition onResponseError')
