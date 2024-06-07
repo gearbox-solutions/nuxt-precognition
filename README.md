@@ -15,10 +15,10 @@ Nuxt Precognition is a "precognition" utility for sharing server-side validation
 * [Features](#Features)
 * [Quick Setup](#quick-setup)
 * [Examples](#examples)
-* [Usage - Client-side](#usage---client-side)
+* [Usage - Client-Side](#usage---client-side)
   * [useForm](#the-useform-vue-composable)
   * [usePrecognitionForm](#the-useprecognitionform-vue-composable)
-* [Usage - Server-side](#usage---server-side)
+* [Usage - Server-Side](#usage---server-side)
   * [handlePrecognitionRequest](#the-handleprecognitionrequest-server-utility--middleware) 
   * [getValidatedInput](#the-getvalidatedinput-utlity-function)
 
@@ -43,7 +43,7 @@ That's it! You can now use Nuxt Precognition in your Nuxt app ✨
 ## Examples
 An example implementation can be found in the [`/playground` directory of this project](https://github.com/gearbox-solutions/nuxt-precognition/tree/main/playground). You can run it locally by checking out this repo, installing dependencies with `pnpm install`, and then running the playground with `pnpm run dev`. This should launch a local server for you to see the form submissions both with validation-only using the `useForm` composable and precognition validation with `usePrecognitionForm`.
 
-## Usage - Client-side
+## Usage - Client-Side
 
 ### The usePrecognitionForm Vue Composable
 
@@ -209,7 +209,7 @@ const submitForm = async () => {
 
 ```
 
-## Usage - Server-side
+## Usage - Server-Side
 
 ### The handlePrecognitionRequest Server Utility / Middleware
 
