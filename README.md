@@ -43,9 +43,6 @@ Here is an example of using the `usePrecognitionForm` composable to create a for
 
 ```vue
 <script setup lang="ts">
-// const form = useForm({
-//   description: '',
-// })
 
 const entries = ref([])
 
