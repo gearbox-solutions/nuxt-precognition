@@ -14,7 +14,7 @@ Nuxt Precognition is a "precognition" utility for sharing server-side validation
 ## Features
 
 - Convenient form submission and validation with `useForm` and `usePrecognitionForm` composables 
-- Server-side validation of form data before the actual form submission with `definePrecognitionEventHandler` Nuxt server middleware
+- Server-side validation of form data before the actual event handler runs with `definePrecognitionEventHandler` Nuxt server utility/middleware
 
 ## Quick Setup
 
