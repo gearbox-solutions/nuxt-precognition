@@ -52,7 +52,7 @@ const submitForm = async () => {
         </div>
 
         <div>
-          <ButtonPrimary :disabled="form.processing">
+          <ButtonPrimary :disabled="form.processing || form.hasErrors">
             Submit
           </buttonprimary>
         </div>
