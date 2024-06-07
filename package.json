@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
+    "lodash-es": "^4.17.21",
     "zod": "^3.23.8"
   },
   "devDependencies": {
@@ -54,7 +55,6 @@
     "autoprefixer": "^10.4.19",
     "changelogen": "^0.5.5",
     "eslint": "^9.2.0",
-    "lodash-es": "^4.17.21",
     "nuxt": "^3.11.2",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.4",
