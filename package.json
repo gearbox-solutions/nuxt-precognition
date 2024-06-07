@@ -52,9 +52,12 @@
     "@nuxt/schema": "^3.11.2",
     "@nuxt/test-utils": "^3.12.1",
     "@types/node": "^20.12.11",
+    "autoprefixer": "^10.4.19",
     "changelogen": "^0.5.5",
     "eslint": "^9.2.0",
     "nuxt": "^3.11.2",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
     "typescript": "latest",
     "vitest": "^1.6.0",
     "vue-tsc": "^2.0.16"
