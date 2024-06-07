@@ -5,12 +5,12 @@ import { readValidatedBody } from 'h3'
 export default async function<T>(event: H3Event, validationSchema: ZodObject<unknown>) {
   const body = await readValidatedBody<T>(event, body => validationSchema.safeParse(body))
   if (!body.success) {
+    // there was an error validating the body
     const fieldErrors = body.error.flatten().fieldErrors
     throwValidationError(fieldErrors)
   }
 
   return body.data
-  // there was an error validating the body
 }
 
 function throwValidationError(errors: Record<string, string>) {
