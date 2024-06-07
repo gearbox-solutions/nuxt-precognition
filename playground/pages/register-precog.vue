@@ -5,8 +5,8 @@
 
 const entries = ref([]);
 
-const form = usePrecognitionForm("post", "/api/todo-precog", {
-  description: "",
+const form = usePrecognitionForm("post", "/api/register-precog", {
+  email: "",
   age: null,
 });
 
@@ -24,29 +24,24 @@ const submitForm = async () => {
   <div>
     <div class="flex gap-x-8">
       <form class="space-y-4" @submit.prevent="submitForm">
-        <div class="">
-          <LabeledInput
-            id="description"
-            v-model="form.description"
-            label="Description"
-            type="text"
-            name="description"
-            :errors="form.errors.description"
-            @change="form.validate('description')"
-          />
-        </div>
-        <div class="">
-          <LabeledInput
-            id="age"
-            v-model.number="form.age"
-            label="Age"
-            type="text"
-            name="age"
-            :errors="form.errors.age"
-            @change="form.validate('age')"
-            @focus="$event.target.select()"
-          />
-        </div>
+        <LabeledInput
+          id="email"
+          v-model="form.email"
+          label="Email"
+          type="text"
+          name="email"
+          :errors="form.errors.email"
+          @change="form.validate('email')"
+        />
+        <LabeledInput
+          id="age"
+          v-model.number="form.age"
+          label="Age"
+          type="text"
+          name="age"
+          :errors="form.errors.age"
+          @change="form.validate('age')"
+        />
 
         <div>
           <ButtonPrimary :disabled="form.processing || form.hasErrors"> Submit </ButtonPrimary>

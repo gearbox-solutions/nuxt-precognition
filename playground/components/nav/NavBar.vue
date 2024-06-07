@@ -9,8 +9,8 @@ import ContentWidthContainer from "~/components/ContentWidthContainer.vue";
         <div class="flex">
           <NuxtLink href="/" class="px-4 py-2 hover:bg-gray-800"> Home </NuxtLink>
 
-          <NuxtLink href="/todo" class="px-4 py-2 hover:bg-gray-800"> Todo </NuxtLink>
-          <NuxtLink href="/todo-precog" class="px-4 py-2 hover:bg-gray-800"> Todo-Precognitive </NuxtLink>
+          <NuxtLink href="/register" class="px-4 py-2 hover:bg-gray-800"> Register </NuxtLink>
+          <NuxtLink href="/register-precog" class="px-4 py-2 hover:bg-gray-800"> Register-Precognitive </NuxtLink>
         </div>
       </div>
     </ContentWidthContainer>
