@@ -1,7 +1,5 @@
 import { z } from "zod";
-import db from "~/database";
-import { eq, sql } from "drizzle-orm";
-import registrations from "~/database/schema/registrations";
+import fakeDatabase from "~/server/utils/fakeDatabase";
 
 const registrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -14,12 +12,11 @@ const registrationSchema = z.object({
 });
 
 function checkIfEmailExists(email: string) {
-  const result = db
-    .select({ count: sql<number>`count(*)` })
-    .from(registrations)
-    .where(eq(registrations.email, email))
-    .get();
-  return result.count == 0;
+  const match = fakeDatabase.find((registration) => registration.email === email);
+  if (match) {
+    return false;
+  }
+  return true;
 }
 
 export default definePrecognitionEventHandler(registrationSchema, async (event) => {

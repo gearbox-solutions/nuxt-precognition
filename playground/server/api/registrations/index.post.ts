@@ -1,7 +1,5 @@
 import { z } from "zod";
-import db from "~/database";
-import registrations from "~/database/schema/registrations";
-import { eq, sql } from "drizzle-orm";
+import fakeDatabase from "~/server/utils/fakeDatabase";
 
 const registrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -14,12 +12,11 @@ const registrationSchema = z.object({
 });
 
 function checkIfEmailExists(email: string) {
-  const result = db
-    .select({ count: sql<number>`count(*)` })
-    .from(registrations)
-    .where(eq(registrations.email, email))
-    .get();
-  return result.count == 0;
+  const match = fakeDatabase.find((registration) => registration.email === email);
+  if (match) {
+    return false;
+  }
+  return true;
 }
 
 export default defineEventHandler(async (event) => {
@@ -33,12 +30,12 @@ export default defineEventHandler(async (event) => {
     email: validated.email,
   };
 
-  const creatredRegistration = db.insert(registrations).values(newRegistration).returning();
+  const fakeDatabase = getFakeDatabase;
+
+  fakeDatabase.push(newRegistration);
 
   // simulate a slow response to show the loading state o the front-end
   await sleep(1000);
-
-  return creatredRegistration;
 });
 
 function sleep(ms: number) {

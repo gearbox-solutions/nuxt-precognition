@@ -38,16 +38,10 @@
     "lint": "eslint .",
     "test": "vitest run",
     "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "db:studio": "drizzle-kit studio",
-    "db:dev-push": "drizzle-kit push",
-    "db:make-migration": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate"
+    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
-    "better-sqlite3": "^11.0.0",
-    "drizzle-orm": "^0.31.2",
     "lodash-es": "^4.17.21",
     "zod": "^3.23.8"
   },
@@ -61,7 +55,6 @@
     "@types/node": "^20.12.11",
     "autoprefixer": "^10.4.19",
     "changelogen": "^0.5.5",
-    "drizzle-kit": "^0.22.6",
     "eslint": "^9.2.0",
     "eslint-config-prettier": "^9.1.0",
     "nuxt": "^3.11.2",
