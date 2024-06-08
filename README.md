@@ -9,8 +9,6 @@
 
 Nuxt Precognition is a "precognition" utility for sharing server-side validation with your front-end. This is inspired by [Laravel Precognition](https://laravel.com/docs/11.x/precognition) and helps you provide a good user validation experience, while also helping to make the Nuxt form submission and validation process as smooth as possible.
 
-[🏀 Online playground](https://stackblitz.com/github/gearbox-solutions/nuxt-precognition?file=playground%2Fpages%2Fregister-precog.vue)
-
 ## Table of Contents
 * [Features](#Features)
 * [Quick Setup](#quick-setup)
@@ -41,7 +39,12 @@ npx nuxi module add @gearbox-solutions/nuxt-precognition
 That's it! You can now use Nuxt Precognition in your Nuxt app ✨
 
 ## Examples
+
+[🏀 Try it on Stackblitz! 🏀](https://stackblitz.com/github/gearbox-solutions/nuxt-precognition?file=playground%2Fpages%2Fregister-precog.vue)
+
 An example implementation can be found in the [`/playground` directory of this project](https://github.com/gearbox-solutions/nuxt-precognition/tree/main/playground). You can run it locally by checking out this repo, installing dependencies with `pnpm install`, and then running the playground with `pnpm run dev`. This should launch a local server for you to see the form submissions both with validation-only using the `useForm` composable and precognition validation with `usePrecognitionForm`.
+
+Alternatively, use the Stackblitz link above to run it in your browser.
 
 ## Usage - Client-Side
 
