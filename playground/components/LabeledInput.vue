@@ -36,7 +36,7 @@ defineEmits(["change"]);
       :id="id"
       v-model="model"
       :name="name"
-      class="rounded-md px-2 py-1"
+      class="rounded-md bg-gray-950 px-2 py-1"
       @change="$emit('change')"
     />
     <div v-for="error in errors" :key="error" class="text-red-500">
