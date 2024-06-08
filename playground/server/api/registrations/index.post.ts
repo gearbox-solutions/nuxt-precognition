@@ -1,7 +1,7 @@
 import { z } from "zod";
 import db from "~/database";
-import { eq, sql } from "drizzle-orm";
 import registrations from "~/database/schema/registrations";
+import { eq, sql } from "drizzle-orm";
 
 const registrationSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -22,10 +22,7 @@ function checkIfEmailExists(email: string) {
   return result.count == 0;
 }
 
-export default definePrecognitionEventHandler(registrationSchema, async (event) => {
-  // This handler function won't run on precognition requests!
-  // It will only run on actual form submissions.
-
+export default defineEventHandler(async (event) => {
   // validate the input
   // This will throw a validation error response if the input is invalid
   const validated = await getValidatedInput(event, registrationSchema);

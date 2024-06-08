@@ -1,14 +1,16 @@
 <script setup lang="ts">
-const entries = ref([]);
 const form = useForm({
+  name: "",
   email: "",
   age: null,
 });
 
+const { data: registrations, refresh } = await useFetch("/api/registrations");
+
 const submitForm = async () => {
-  await form.post("/api/register", {
-    onSuccess: (response) => {
-      entries.value.push(response._data);
+  await form.post("/api/registrations", {
+    onSuccess: () => {
+      refresh();
     },
   });
 };
@@ -18,6 +20,7 @@ const submitForm = async () => {
   <div>
     <div class="flex gap-x-8">
       <form class="space-y-4" @submit.prevent="submitForm">
+        <LabeledInput id="name" v-model="form.name" label="Name" type="text" name="name" :errors="form.errors.name" />
         <LabeledInput
           id="email"
           v-model="form.email"
@@ -35,10 +38,10 @@ const submitForm = async () => {
       <pre>{{ form }}</pre>
     </div>
     <div class="pt-12">
-      <pre />
-      <div class="text-lg font-bold uppercase">Registered Users</div>
-      <div v-for="(entry, index) in entries" :key="index">
-        {{ entry.email }}
+      <div class="text-lg font-bold uppercase">Registrations</div>
+      <div v-for="registration in registrations" :key="registration.id" class="flex gap-x-4">
+        <div class="w-56">{{ registration.name }}</div>
+        <div>{{ registration.email }}</div>
       </div>
     </div>
   </div>
