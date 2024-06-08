@@ -7,6 +7,6 @@ export default {
   dialect: "sqlite",
   verbose: true,
   dbCredentials: {
-    url: "./playground/database/sqlite.db",
+    url: "./playground/.data/sqlite.db",
   },
 } satisfies Config;

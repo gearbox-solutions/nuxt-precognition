@@ -20,6 +20,7 @@ dist
 .nuxt
 .output
 .data
+!playground/.data
 .vercel_build_output
 .build-*
 .netlify
