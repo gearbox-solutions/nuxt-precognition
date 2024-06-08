@@ -9,7 +9,7 @@
 
 Nuxt Precognition is a "precognition" utility for sharing server-side validation with your front-end. This is inspired by [Laravel Precognition](https://laravel.com/docs/11.x/precognition) and helps you provide a good user validation experience, while also helping to make the Nuxt form submission and validation process as smooth as possible.
 
-[🏀 Online playground](https://stackblitz.com/github/gearbox-solutions/nuxt-precognition?file=playground%2Fapp.vue)
+[🏀 Online playground](https://stackblitz.com/github/gearbox-solutions/nuxt-precognition?file=playground%2Fpages%2Fregister-precog.vue)
 
 ## Table of Contents
 * [Features](#Features)
