@@ -40,7 +40,7 @@ async function validate(fieldName: string) {
     onStart: () => {
       this.validating = true;
     },
-    onSuccess: async (response) => {
+    onSuccess: async () => {
       this.clearErrors();
     },
     onError: (errors) => {
@@ -61,7 +61,7 @@ async function validate(fieldName: string) {
         "Precognition-Validate-Only": validateOnly,
       },
       body: onlyFieldsToValidate,
-      onRequest: async ({ request, options }) => {
+      onRequest: async () => {
         await defaultOptions.onStart();
       },
       onResponse: async (context: FetchContext & { response: FetchResponse<R> }): Promise<void> | void => {

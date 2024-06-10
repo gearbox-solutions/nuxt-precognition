@@ -161,21 +161,21 @@ export default function useForm<TForm extends FormDataType>(
           this.isDirty = false;
           return onSuccess;
         },
-        onError: (errors) => {
+        onError: ({ request, options, response, errors }) => {
           this.processing = false;
           this.progress = null;
           this.clearErrors().setError(errors);
 
           if (options.onError) {
-            return options.onError(errors);
+            return options.onError({ request, options, response, errors });
           }
         },
-        onFinish: (visit) => {
+        onFinish: ({ request, options, response }) => {
           this.processing = false;
           this.progress = null;
 
           if (options.onFinish) {
-            return options.onFinish(visit);
+            return options.onFinish({ request, options, response });
           }
         },
       };
@@ -192,22 +192,22 @@ export default function useForm<TForm extends FormDataType>(
           method: method,
           body: data,
           onRequest: async ({ request, options }) => {
-            await _options.onStart();
+            await _options.onStart({ request, options });
           },
-          onResponse: async ({ response }) => {
+          onResponse: async ({ request, options, response }) => {
             // onResponse is always called, even if there was an errors
             // return early so we don't execute both this and onResponseError
             if (!response.ok) {
               return;
             }
-            await _options.onSuccess(response);
-            await _options.onFinish();
+            await _options.onSuccess({ request, options, response });
+            await _options.onFinish({ request, options, response });
           },
-          async onResponseError({ response }) {
+          async onResponseError({ request, options, response }) {
             console.log("onResponseError");
             const errors = response._data.data?.errors;
-            await _options.onError(errors);
-            await _options.onFinish();
+            await _options.onError({ request, options, response, errors });
+            await _options.onFinish({ request, options, response });
           },
         });
       } catch (e) {
