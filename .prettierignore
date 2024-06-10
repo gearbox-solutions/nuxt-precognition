@@ -1,0 +1,10 @@
+pnpm-lock.yaml
+.idea
+.vscode
+node_modules
+.nuxt
+dist
+.editorconfig
+.npmrc
+CHANGELOG.md
+README.md

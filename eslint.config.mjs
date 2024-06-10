@@ -1,5 +1,5 @@
 // @ts-check
-import { createConfigForNuxt } from '@nuxt/eslint-config/flat'
+import { createConfigForNuxt } from "@nuxt/eslint-config/flat";
 import eslintConfigPrettier from "eslint-config-prettier";
 
 // Run `npx @eslint/config-inspector` to inspect the resolved config interactively
@@ -11,10 +11,8 @@ const nuxtConfig = createConfigForNuxt({
     stylistic: true,
   },
   dirs: {
-    src: [
-      './playground',
-    ],
+    src: ["./playground"],
   },
-})
+});
 
-export default [nuxtConfig.toConfigs(), eslintConfigPrettier]
+export default [nuxtConfig.toConfigs(), eslintConfigPrettier];
