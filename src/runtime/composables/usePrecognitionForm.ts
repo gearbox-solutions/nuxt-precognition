@@ -22,7 +22,6 @@ export default function usePrecognitionForm<Data extends Record<string, unknown>
 }
 
 async function validate(fieldName: string) {
-  console.log("validate", fieldName);
   // check if the fieldName is an array
   let onlyFieldsToValidate;
   const transformedData = this.transform(this.data());
@@ -39,26 +38,21 @@ async function validate(fieldName: string) {
 
   const defaultOptions = {
     onStart: () => {
-      console.log("precognition onStart");
       this.validating = true;
     },
     onSuccess: async (response) => {
-      console.log("precognition onSuccess", response);
       this.clearErrors();
     },
     onError: (errors) => {
-      console.log("precognitionOnError", errors);
       this.setError(errors);
     },
     onFinish: () => {
-      console.log("precognitionOnFinish");
       this.validating = false;
     },
   };
 
   const validateOnly = Object.keys(onlyFieldsToValidate).join();
 
-  console.log("precognition oFetch");
   try {
     await $fetch(this.url, {
       method: this.method,
@@ -68,8 +62,6 @@ async function validate(fieldName: string) {
       },
       body: onlyFieldsToValidate,
       onRequest: async ({ request, options }) => {
-        console.log("precognition oFetch onRequest", request, options);
-
         await defaultOptions.onStart();
       },
       onResponse: async (context: FetchContext & { response: FetchResponse<R> }): Promise<void> | void => {
@@ -81,7 +73,6 @@ async function validate(fieldName: string) {
         await this.clearErrors(validateOnly);
       },
       onResponseError: async ({ response }) => {
-        console.log("precognition onResponseError");
         const errors = response._data.data?.errors;
         await defaultOptions.onError(errors);
         await defaultOptions.onFinish();

@@ -126,7 +126,6 @@ export default function useForm<TForm extends FormDataType>(
       const _options = {
         ...options,
         onBefore: () => {
-          console.log("onBefore");
           this.wasSuccessful = false;
           this.recentlySuccessful = false;
           clearTimeout(recentlySuccessfulTimeoutId);
@@ -136,7 +135,6 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onStart: (visit) => {
-          console.log("onStart", visit);
           this.processing = true;
 
           if (options.onStart) {
@@ -151,7 +149,6 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onSuccess: async (response) => {
-          console.log("onSuccess", response);
           this.processing = false;
           this.progress = null;
           this.clearErrors();
@@ -165,7 +162,6 @@ export default function useForm<TForm extends FormDataType>(
           return onSuccess;
         },
         onError: (errors) => {
-          console.log("onError", errors);
           this.processing = false;
           this.progress = null;
           this.clearErrors().setError(errors);
@@ -175,7 +171,6 @@ export default function useForm<TForm extends FormDataType>(
           }
         },
         onFinish: (visit) => {
-          console.log("onFinish");
           this.processing = false;
           this.progress = null;
 
@@ -197,12 +192,9 @@ export default function useForm<TForm extends FormDataType>(
           method: method,
           body: data,
           onRequest: async ({ request, options }) => {
-            console.log("oFetch onRequest", request, options);
-
             await _options.onStart();
           },
           onResponse: async ({ response }) => {
-            console.log("onResponse");
             // onResponse is always called, even if there was an errors
             // return early so we don't execute both this and onResponseError
             if (!response.ok) {

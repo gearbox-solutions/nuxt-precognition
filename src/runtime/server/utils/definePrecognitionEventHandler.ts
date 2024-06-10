@@ -10,13 +10,11 @@ const precognitionEventHandler = <T extends EventHandlerRequest, D>(
 ): EventHandler<T, D> =>
   defineEventHandler<T>(async (event) => {
     // do something before the route handler
-    console.log("starting precognition event handler");
     const headers = getHeaders(event);
 
     if (!headers.precognition) {
       // this is not a precognition event
       // return the regular response
-      console.log("Regular event handler running");
 
       return handler(event);
     }
@@ -25,7 +23,6 @@ const precognitionEventHandler = <T extends EventHandlerRequest, D>(
     const fieldsToValidate = validateOnlyHeader ? validateOnlyHeader.split(",") : [];
 
     // this is a precognition event
-    console.log("Handling precognition event...");
     return await processPrecognitionRequest(event, zodObject, fieldsToValidate);
   });
 
