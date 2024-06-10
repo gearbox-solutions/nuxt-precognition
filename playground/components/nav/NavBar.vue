@@ -25,6 +25,7 @@ const links = [
         <div class="flex">
           <NuxtLink
             v-for="link in links"
+            :key="link.path"
             :href="link.path"
             class="px-4 pb-2 pt-4 hover:bg-gray-800"
             :class="activeClasses(link.path)"

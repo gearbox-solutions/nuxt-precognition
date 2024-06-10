@@ -15,7 +15,7 @@
       validation and error handling.
     </p>
 
-    <NuxtLink to="/register-form">Register Form</NuxtLink>
+    <NuxtLink to="/register">Register Form</NuxtLink>
 
     <h2>Register Form with Precognition</h2>
 
