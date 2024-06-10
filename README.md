@@ -109,7 +109,7 @@ Here's a quick summary for people who don't want to leave this page:
 
 - Lifecycle Hooks
   - `onBefore()`
-  - `onStart()`
+  - `onStart({ request, options })`
   - `onSuccess({ request, options, response })` - Runs after the request. Called only if the request is successful.
   - `onError({ request, options, response, errors })` - Runs after the request. Called only if the request fails.
   - `onFinish({ request, options, response })` - Always runs after the request, after `onSuccess` or `onError`
