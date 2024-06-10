@@ -105,6 +105,8 @@ The `useForm` Vue composable provides a convenient way to handle form submission
 
 This form is based on the [`useForm` composable from Inertia.js](https://inertiajs.com/forms#form-helper) and generally implements the same API and can be used in the same way. [The documentation for the `useForm` composable](https://inertiajs.com/forms#form-helper) should be consulted for details on how to use the form.
 
+Here's a quick summary for people who don't want to leave this page:
+
 - Lifecycle Hooks
   - `onBefore()`
   - `onStart()`
