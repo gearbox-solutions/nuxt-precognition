@@ -8,11 +8,11 @@ const nuxtConfig = createConfigForNuxt({
     // Rules for module authors
     tooling: true,
     // Rules for formatting
-    stylistic: true,
+    stylistic: false,
   },
   dirs: {
     src: ["./playground"],
   },
-});
+})
 
-export default [nuxtConfig.toConfigs(), eslintConfigPrettier];
+export default [ ...await nuxtConfig, eslintConfigPrettier ];
