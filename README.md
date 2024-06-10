@@ -64,7 +64,7 @@ const form = usePrecognitionForm("post", "/api/entries", {
 
 const submitForm = async () => {
   await form.submit({
-    onSuccess: (response) => {
+    onSuccess: () => {
       refresh();
     },
   });
@@ -110,9 +110,9 @@ Here's a quick summary for people who don't want to leave this page:
 - Lifecycle Hooks
   - `onBefore()`
   - `onStart()`
-  - `onSuccess(response)` - Runs after the request. Called only if the request is successful.
-  - `onError(response)` - Runs after the request. Called only if the request fails.
-  - `onFinish(response)` - Always runs after the request, after `onSuccess` or `onError`
+  - `onSuccess({ request, options, response })` - Runs after the request. Called only if the request is successful.
+  - `onError({ request, options, response, errors })` - Runs after the request. Called only if the request fails.
+  - `onFinish({ request, options, response })` - Always runs after the request, after `onSuccess` or `onError`
 - Form State
   - `isDirty` - Boolean - Indicates if the form values have been changed since it was instanciated.
   - `hasErrors` - Boolean - Indicates if there are validation errors
