@@ -14,8 +14,8 @@ Nuxt Precognition is a "precognition" utility for sharing server-side validation
 * [Quick Setup](#quick-setup)
 * [Examples](#examples)
 * [Usage - Client-Side](#usage---client-side)
-  * [useForm](#the-useform-vue-composable)
   * [usePrecognitionForm](#the-useprecognitionform-vue-composable)
+  * [useForm](#the-useform-vue-composable)
 * [Usage - Server-Side](#usage---server-side)
   * [handlePrecognitionRequest](#the-handleprecognitionrequest-server-utility--middleware) 
   * [getValidatedInput](#the-getvalidatedinput-utlity-function)
@@ -54,23 +54,23 @@ The `usePrecogitionForm` composable is the core feature for setting up the preco
 
 The `useProecognitionForm` composable is automatically imported into your Nuxt app when you install the module, and can be used without needing to manually import it.
 
-This composable is used to create your form object and with handle form submission and validation. It is stateful, and will provide you with the form states and errors for you to nicely display validation and submission state in your components.
+This composable is used to create your form object and will manage form submission and validation. It is stateful, and will provide you with the form states and errors for you to nicely display validation and submission state in your components.
 
 Here is an example of using the `usePrecognitionForm` composable to create a form object, validate the data on change, and handle form submission and responses:
 
 ```vue
 <script setup lang="ts">
 
-const entries = ref([])
+  const { data: entries, refresh } = await useFetch("/api/entries");
 
-const form = usePrecognitionForm('post', '/api/todo-precog', {
+const form = usePrecognitionForm('post', '/api/entries', {
   description: '',
 })
 
 const submitForm = async () => {
   await form.submit({
     onSuccess: (response) => {
-      entries.value.push(response._data)
+      refresh()
     },
   })
 }
@@ -107,7 +107,7 @@ const submitForm = async () => {
         <div>
           <button :disabled="form.processing">
             Submit
-          </buttonprimary>
+          </button>
         </div>
       </form>
       <pre>{{ form }}</pre>
@@ -132,17 +132,27 @@ const submitForm = async () => {
 ### The useForm Vue Composable
  The `useForm` Vue composable provides a convenient way to handle form submission and validation errors in your Nuxt app for cases when you may not want to use the full precognition features, but still keep the same convenient form-submission process. A form created through the `useForm` composable provide your form submissions with a number of useful features:
  - Lifecycle Hooks
-    - `onBefore` - 
-    - `onStart` -
-    - `onSuccess` - 
-    - `onError` - 
-    - `onFinish` -
+    - `onBefore()` 
+    - `onStart()`
+    - `onSuccess(response)` - Runs after the request. Called only if the request is successful. 
+    - `onError(response)` -  Runs after the request. Called only if the request fails.
+    - `onFinish(response)` - Always runs after the request, after `onSuccess` or `onError`
  - Form State
-   - `isDirty`
-   - `hasErrors`
-   - `processing`
-   - `wasSuccessful`
-   - `recentlySuccessful`
+   - `isDirty` - Boolean - Indicates if the form values have been changed since it was instanciated.
+   - `hasErrors` - Boolean - Indicates if there are validation errors
+   - `processing` - Boolean - Indicates if the form has been submitted, but a response has not yet been received
+   - `wasSuccessful` - Boolean - Indicates if the last form submission was successful
+   - `recentlySuccessful` - Boolean - Temporarily indicates `true` if the last form submission was successful, then changes to false. This is useful for temporarily showing a "Success!" type of message to users.
+ - Functions
+   - `reset()` - Reset the form to the state it was in when it was created
+   - `setError(error)` - Manually set an error state.
+   - `clearErrors()` - Clear the error state.
+   - `submit(method, url, options?)` - Submit the form using the specified method. You can also use the helper functions instead of this.
+   - `get(url, options?)` - Convenience function for `submit()` with `GET`
+   - `post(url, options?)` - Convenience function for `submit()` with `POST`
+   - `put(url, options?)` - Convenience function for `submit()` with `GET`
+   - `patch(url, options?)` - Convenience function for `submit()` with `GET`
+   - `delete(url, options?)` - Convenience function for `submit()` with `GET`
    
 This form is based on the [`useForm` composable from Inertia.js](https://inertiajs.com/forms#form-helper) and generally implements the same API and can be used in the same way. [The documentation for the `useForm` composable](https://inertiajs.com/forms#form-helper) should be consulted for details on how to use the form.
 
