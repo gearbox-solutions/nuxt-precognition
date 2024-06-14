@@ -30,8 +30,6 @@ export default defineEventHandler(async (event) => {
     email: validated.email,
   };
 
-  const fakeDatabase = getFakeDatabase;
-
   fakeDatabase.push(newRegistration);
 
   // simulate a slow response to show the loading state o the front-end

@@ -33,12 +33,9 @@ export default definePrecognitionEventHandler(registrationSchema, async (event) 
     email: validated.email,
   };
 
-  const creatredRegistration = db.insert(registrations).values(newRegistration).returning();
-
+  fakeDatabase.push(newRegistration);
   // simulate a slow response to show the loading state o the front-end
   await sleep(1000);
-
-  return creatredRegistration;
 });
 
 function sleep(ms: number) {
